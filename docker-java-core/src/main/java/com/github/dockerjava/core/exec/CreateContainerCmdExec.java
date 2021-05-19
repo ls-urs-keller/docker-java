@@ -26,6 +26,9 @@ public class CreateContainerCmdExec extends AbstrSyncDockerCmdExec<CreateContain
         if (command.getName() != null) {
             webResource = webResource.queryParam("name", command.getName());
         }
+        if (System.getenv().containsKey("DOCKER_DEFAULT_PLATFORM")) {
+            webResource = webResource.queryParam("platform", System.getenv().get("DOCKER_DEFAULT_PLATFORM"));
+        }
 
         LOGGER.trace("POST: {} ", webResource);
         return resourceWithOptionalAuthConfig(command.getAuthConfig(), webResource.request())
